@@ -53,10 +53,9 @@
         "semantic-release": "semantic-release --dry-run --no-ci",
         "postversion": "gulp build"
     },
-    "dependencies": {
-        "itee-database": "^8.0.2"
-    },
+    "dependencies": {},
     "peerDependencies": {
+        "itee-database": "^8.0.2",
         "itee-utils": "^5.1.1",
         "itee-validators": "^5.1.2",
         "tedious": "^8.0.1"
