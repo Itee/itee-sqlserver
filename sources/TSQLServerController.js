@@ -200,8 +200,6 @@ class TSQLServerController extends TAbstractDataController {
         const query   = `SELECT * FROM ${this.tableName}`
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
 
-            console.log( `Get ${rowCount} elements.` )
-
             if ( requestError ) {
 
                 TAbstractDataController.returnError( requestError, response )
@@ -244,8 +242,6 @@ class TSQLServerController extends TAbstractDataController {
 
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
 
-            console.log( `Get ${rowCount} elements !` )
-
             if ( requestError ) {
 
                 TAbstractDataController.returnError( requestError, response )
@@ -285,8 +281,6 @@ class TSQLServerController extends TAbstractDataController {
 
         const query   = `SELECT * FROM ${this.tableName} WHERE id=${id}`
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
-
-            console.log( `Get ${rowCount} elements !` )
 
             if ( requestError ) {
 
