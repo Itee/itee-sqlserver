@@ -1,6 +1,5 @@
-console.log('Itee.Database.SQLServer v1.0.2 - EsModule')
+console.log('Itee.Database.SQLServer v1.0.3 - EsModule')
 import * as SqlServerDriver from 'tedious';
-import { Connection, Request } from 'tedious';
 import { TAbstractDatabase, TAbstractDataController } from 'itee-database';
 import { isNull, isUndefined, isNotString, isNotArrayOfString, isString } from 'itee-validators';
 
@@ -96,8 +95,8 @@ class TSQLServerDatabase extends TAbstractDatabase {
 
         _parameters.driver = {
             SqlServerDriver: SqlServerDriver,
-            Connection:      new Connection( _parameters ),
-            Request:         Request
+            Connection:      new SqlServerDriver.Connection( _parameters ),
+            Request:         SqlServerDriver.Request
         };
 
         super( _parameters );
@@ -116,7 +115,7 @@ class TSQLServerDatabase extends TAbstractDatabase {
         this.driver.Connection.on( 'connect', connectionError => {
 
             if ( connectionError ) {
-                console.error( connectionError );
+                this.logger.error( connectionError );
                 return
             }
 
@@ -124,7 +123,7 @@ class TSQLServerDatabase extends TAbstractDatabase {
             const host     = config.server;
             const port     = config.options.port;
             const database = config.options.database;
-            console.log( `SQLServer at ms-sql-s://${host}:${port}/${database} is connected !` );
+            this.logger.log( `SQLServer at ms-sql-s://${host}:${port}/${database} is connected !` );
 
         } );
 
@@ -330,8 +329,6 @@ class TSQLServerController extends TAbstractDataController {
         const query   = `SELECT * FROM ${this.tableName}`;
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
 
-            console.log( `Get ${rowCount} elements.` );
-
             if ( requestError ) {
 
                 TAbstractDataController.returnError( requestError, response );
@@ -371,8 +368,6 @@ class TSQLServerController extends TAbstractDataController {
 
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
 
-            console.log( `Get ${rowCount} elements !` );
-
             if ( requestError ) {
 
                 TAbstractDataController.returnError( requestError, response );
@@ -409,8 +404,6 @@ class TSQLServerController extends TAbstractDataController {
 
         const query   = `SELECT * FROM ${this.tableName} WHERE id=${id}`;
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
-
-            console.log( `Get ${rowCount} elements !` );
 
             if ( requestError ) {
 
