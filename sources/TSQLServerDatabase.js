@@ -113,7 +113,7 @@ class TSQLServerDatabase extends TAbstractDatabase {
         this.driver.Connection.on( 'connect', connectionError => {
 
             if ( connectionError ) {
-                console.error( connectionError )
+                this.logger.error( connectionError )
                 return
             }
 
@@ -121,7 +121,7 @@ class TSQLServerDatabase extends TAbstractDatabase {
             const host     = config.server
             const port     = config.options.port
             const database = config.options.database
-            console.log( `SQLServer at ms-sql-s://${host}:${port}/${database} is connected !` )
+            this.logger.log( `SQLServer at ms-sql-s://${host}:${port}/${database} is connected !` )
 
         } )
 
