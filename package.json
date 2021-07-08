@@ -55,9 +55,9 @@
     },
     "dependencies": {},
     "peerDependencies": {
-        "itee-database": "^8.1.1",
-        "itee-utils": "^5.2.2",
-        "itee-validators": "^5.3.1",
+        "itee-database": "^8.1.2",
+        "itee-utils": "^5.2.3",
+        "itee-validators": "^5.3.2",
         "tedious": "^11.0.9"
     },
     "devDependencies": {
