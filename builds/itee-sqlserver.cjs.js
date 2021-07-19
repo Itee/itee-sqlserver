@@ -1,4 +1,4 @@
-console.log('Itee.Database.SQLServer v1.0.2 - CommonJs')
+console.log('Itee.Database.SQLServer v1.0.3 - CommonJs')
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -6,6 +6,28 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var SqlServerDriver = require('tedious');
 var iteeDatabase = require('itee-database');
 var iteeValidators = require('itee-validators');
+
+function _interopNamespace(e) {
+	if (e && e.__esModule) return e;
+	var n = Object.create(null);
+	if (e) {
+		Object.keys(e).forEach(function (k) {
+			if (k !== 'default') {
+				var d = Object.getOwnPropertyDescriptor(e, k);
+				Object.defineProperty(n, k, d.get ? d : {
+					enumerable: true,
+					get: function () {
+						return e[k];
+					}
+				});
+			}
+		});
+	}
+	n['default'] = e;
+	return Object.freeze(n);
+}
+
+var SqlServerDriver__namespace = /*#__PURE__*/_interopNamespace(SqlServerDriver);
 
 /**
  * @author [Ahmed DCHAR]{@link https://github.com/dragoneel}
@@ -98,9 +120,9 @@ class TSQLServerDatabase extends iteeDatabase.TAbstractDatabase {
         };
 
         _parameters.driver = {
-            SqlServerDriver: SqlServerDriver,
-            Connection:      new SqlServerDriver.Connection( _parameters ),
-            Request:         SqlServerDriver.Request
+            SqlServerDriver: SqlServerDriver__namespace,
+            Connection:      new SqlServerDriver__namespace.Connection( _parameters ),
+            Request:         SqlServerDriver__namespace.Request
         };
 
         super( _parameters );
@@ -119,7 +141,7 @@ class TSQLServerDatabase extends iteeDatabase.TAbstractDatabase {
         this.driver.Connection.on( 'connect', connectionError => {
 
             if ( connectionError ) {
-                console.error( connectionError );
+                this.logger.error( connectionError );
                 return
             }
 
@@ -127,7 +149,7 @@ class TSQLServerDatabase extends iteeDatabase.TAbstractDatabase {
             const host     = config.server;
             const port     = config.options.port;
             const database = config.options.database;
-            console.log( `SQLServer at ms-sql-s://${host}:${port}/${database} is connected !` );
+            this.logger.log( `SQLServer at ms-sql-s://${host}:${port}/${database} is connected !` );
 
         } );
 
@@ -333,8 +355,6 @@ class TSQLServerController extends iteeDatabase.TAbstractDataController {
         const query   = `SELECT * FROM ${this.tableName}`;
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
 
-            console.log( `Get ${rowCount} elements.` );
-
             if ( requestError ) {
 
                 iteeDatabase.TAbstractDataController.returnError( requestError, response );
@@ -374,8 +394,6 @@ class TSQLServerController extends iteeDatabase.TAbstractDataController {
 
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
 
-            console.log( `Get ${rowCount} elements !` );
-
             if ( requestError ) {
 
                 iteeDatabase.TAbstractDataController.returnError( requestError, response );
@@ -412,8 +430,6 @@ class TSQLServerController extends iteeDatabase.TAbstractDataController {
 
         const query   = `SELECT * FROM ${this.tableName} WHERE id=${id}`;
         const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
-
-            console.log( `Get ${rowCount} elements !` );
 
             if ( requestError ) {
 
