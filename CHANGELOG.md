@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/Itee/itee-sqlserver/compare/v1.0.3...v1.0.4) (2021-07-21)
+
+
+### Bug Fixes
+
+* **readme:** add simple readme content ([02fb709](https://github.com/Itee/itee-sqlserver/commit/02fb70982335e09740660a56a99836326dbef67c))
+
 ## [1.0.3](https://github.com/Itee/itee-sqlserver/compare/v1.0.2...v1.0.3) (2021-07-08)
 
 

@@ -1,4 +1,4 @@
-console.log('Itee.Database.SQLServer v1.0.3 - EsModule')
+console.log('Itee.Database.SQLServer v1.0.4 - EsModule')
 import * as SqlServerDriver from 'tedious';
 import { TAbstractDatabase, TAbstractDataController } from 'itee-database';
 import { isNull, isUndefined, isNotString, isNotArrayOfString, isString } from 'itee-validators';
