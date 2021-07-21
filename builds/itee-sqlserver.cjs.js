@@ -1,4 +1,4 @@
-console.log('Itee.Database.SQLServer v1.0.3 - CommonJs')
+console.log('Itee.Database.SQLServer v1.0.4 - CommonJs')
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });

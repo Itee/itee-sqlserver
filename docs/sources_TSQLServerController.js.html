@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Itee-SQLServer Source: sources/TSQLServerController.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cyborg.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Itee-SQLServer</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-Building.html">Building</a></li><li><a href="module-Config-EsLint.html">Config-EsLint</a></li><li><a href="module-Config-JsDoc.html">Config-JsDoc</a></li><li><a href="module-Config-Karma-Benchs.html">Config-Karma-Benchs</a></li><li><a href="module-Config-Karma-Units.html">Config-Karma-Units</a></li><li><a href="module-Config-Rollup.html">Config-Rollup</a></li><li><a href="module-Config-Rollup-Test.html">Config-Rollup-Test</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="TSQLServerController.html">TSQLServerController</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#npmrunbench">npm run bench</a></li><li><a href="global.html#npmrunbuild">npm run build</a></li><li><a href="global.html#npmrunbuild-test">npm run build-test</a></li><li><a href="global.html#npmrunclean">npm run clean</a></li><li><a href="global.html#npmrundoc">npm run doc</a></li><li><a href="global.html#npmrunhelpdefault">npm run help ( default )</a></li><li><a href="global.html#npmrunlint">npm run lint</a></li><li><a href="global.html#npmrunpatch">npm run patch</a></li><li><a href="global.html#npmrunrelease">npm run release</a></li><li><a href="global.html#npmruntest">npm run test</a></li><li><a href="global.html#npmrununit">npm run unit</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: sources/TSQLServerController.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * @author [Tristan Valcke]{@link https://github.com/Itee}
+ * @license [BSD-3-Clause]{@link https://opensource.org/licenses/BSD-3-Clause}
+ *
+ * @class TSQLServerController
+ * @classdesc The TSQLServerController is the base class to perform CRUD operations on the database
+ */
+
+import {
+    isNotArrayOfString,
+    isNotString,
+    isNull,
+    isString,
+    isUndefined
+}                                  from 'itee-validators'
+import { TAbstractDataController } from 'itee-database'
+
+class TSQLServerController extends TAbstractDataController {
+
+    constructor ( parameters = {} ) {
+
+        const _parameters = {
+            ...{
+                driver:    null,
+                tableName: '',
+                columns:   []
+            }, ...parameters
+        }
+
+        super( _parameters )
+
+        this.tableName = _parameters.tableName
+        this.columns   = _parameters.columns
+
+    }
+
+    get tableName () {
+        return this._tableName
+    }
+
+    set tableName ( value ) {
+
+        const valueName = 'Table name'
+        const expect    = 'Expect an instance of String.'
+
+        if ( isNull( value ) ) { throw new TypeError( `${valueName} cannot be null ! ${expect}` ) }
+        if ( isUndefined( value ) ) { throw new TypeError( `${valueName} cannot be undefined ! ${expect}` ) }
+        if ( isNotString( value ) ) { throw new TypeError( `${valueName} cannot be an instance of ${value.constructor.name} ! ${expect}` ) }
+
+        this._tableName = value
+
+    }
+
+    get columns () {
+        return this._columns
+    }
+
+    set columns ( value ) {
+
+        const valueName = 'Columns'
+        const expect    = 'Expect an array of strings.'
+
+        if ( isNull( value ) ) { throw new TypeError( `${valueName} cannot be null ! ${expect}` ) }
+        if ( isUndefined( value ) ) { throw new TypeError( `${valueName} cannot be undefined ! ${expect}` ) }
+        if ( isNotArrayOfString( value ) ) { throw new TypeError( `${valueName} cannot be an instance of ${value.constructor.name} ! ${expect}` ) }
+
+        this._columns = value
+
+    }
+
+    setTableName ( value ) {
+
+        this.tableName = value
+        return this
+
+    }
+
+    setColumns ( value ) {
+
+        this.columns = value
+        return this
+
+    }
+
+    _createMany ( datas, response ) {
+        super._createMany( datas, response )
+
+        const columns         = this.columns
+        const formatedColumns = columns.toString()
+
+        let data           = null
+        let formatedValues = ''
+        let value          = null
+
+        for ( let index = 0, numberOfDatas = datas.length ; index &lt; numberOfDatas ; index++ ) {
+            data = datas[ index ]
+
+            formatedValues += `(`
+            for ( let key in data ) {
+
+                if ( !columns.includes( key ) ) { continue }
+
+                value = data[ key ]
+
+                if ( isString( value ) ) {
+                    formatedValues += `'${value}', `
+                } else {
+                    formatedValues += `${value}, `
+                }
+
+            }
+            formatedValues = formatedValues.slice( 0, -2 )
+            formatedValues += `), `
+
+        }
+        formatedValues = formatedValues.slice( 0, -2 )
+
+        const query   = `INSERT INTO ${this._tableName} (${formatedColumns}) VALUES ${formatedValues}`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _createOne ( data, response ) {
+        super._createOne( data, response )
+
+        const columns = this.columns
+
+        let formatedColumns = ''
+        let column          = null
+        let formatedValues  = ''
+        let value           = null
+        for ( let index = 0, numberOfColumns = columns.length ; index &lt; numberOfColumns ; index++ ) {
+            column = columns[ index ]
+            value  = data[ column ]
+
+            if ( value ) {
+                formatedColumns += `${column}, `
+
+                if ( isString( value ) ) {
+                    formatedValues += `'${value}', `
+                } else {
+                    formatedValues += `${value}, `
+                }
+            }
+        }
+        formatedColumns = formatedColumns.slice( 0, -2 )
+        formatedValues  = formatedValues.slice( 0, -2 )
+
+        const query   = `INSERT INTO ${this._tableName} (${formatedColumns}) VALUES (${formatedValues})`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _deleteAll ( response ) {
+        super._deleteAll( response )
+
+        const query   = `TRUNCATE TABLE ${this._tableName}`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _deleteMany ( ids, response ) {
+        super._deleteMany( ids, response )
+
+        const query   = `DELETE FROM ${this._tableName} WHERE id IN (${ids})`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _deleteOne ( id, response ) {
+        super._deleteOne( id, response )
+
+        const query   = `DELETE FROM ${this._tableName} WHERE id=${id}`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _deleteWhere ( query, response ) {
+        super._deleteWhere( query, response )
+
+        TAbstractDataController.returnError( 'Unimplemented methods (DELETE WHERE)', response )
+
+    }
+
+    _readAll ( projection, response ) {
+        super._readAll( projection, response )
+
+        let results = []
+
+        const query   = `SELECT * FROM ${this.tableName}`
+        const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
+
+            if ( requestError ) {
+
+                TAbstractDataController.returnError( requestError, response )
+
+            } else if ( results.length === 0 ) {
+
+                TAbstractDataController.returnNotFound( response )
+
+            } else {
+
+                TAbstractDataController.returnData( results, response )
+
+            }
+
+        } )
+
+        request.on( 'row', columns => {
+
+            let result = {}
+            columns.forEach( column => {
+
+                result[ column.metadata.colName ] = column.value
+
+            } )
+            results.push( result )
+
+        } )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _readMany ( ids, projection, response ) {
+        super._readMany( ids, projection, response )
+
+        let results = []
+
+        const idsFormated = ids.toString()
+        const query       = `SELECT * FROM ${this.tableName} WHERE id IN (${idsFormated})`
+
+        const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
+
+            if ( requestError ) {
+
+                TAbstractDataController.returnError( requestError, response )
+
+            } else if ( results.length === 0 ) {
+
+                TAbstractDataController.returnNotFound( response )
+
+            } else {
+
+                TAbstractDataController.returnData( results, response )
+
+            }
+
+        } )
+
+        request.on( 'row', columns => {
+
+            let result = {}
+            columns.forEach( column => {
+
+                result[ column.metadata.colName ] = column.value
+
+            } )
+            results.push( result )
+
+        } )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _readOne ( id, projection, response ) {
+        super._readOne( id, projection, response )
+
+        let results = []
+
+        const query   = `SELECT * FROM ${this.tableName} WHERE id=${id}`
+        const request = new this._driver.Request( query, ( requestError, rowCount, results ) => {
+
+            if ( requestError ) {
+
+                TAbstractDataController.returnError( requestError, response )
+
+            } else if ( results.length === 0 ) {
+
+                TAbstractDataController.returnNotFound( response )
+
+            } else {
+
+                TAbstractDataController.returnData( results, response )
+
+            }
+
+        } )
+
+        request.on( 'row', columns => {
+
+            let result = {}
+            columns.forEach( column => {
+
+                result[ column.metadata.colName ] = column.value
+
+            } )
+            results.push( result )
+
+        } )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _readWhere ( query, projection, response ) {
+        super._readWhere( query, projection, response )
+
+        TAbstractDataController.returnError( 'Unimplemented methods (READ WHERE)', response )
+
+    }
+
+    _updateAll ( update, response ) {
+        super._updateAll( update, response )
+
+        let formatedUpdates = ''
+        for ( let key in update ) {
+            const formatedUpdate = update[ key ]
+            if ( isString( formatedUpdate ) ) {
+                formatedUpdates += `${key} = '${formatedUpdate}', `
+            } else {
+                formatedUpdates += `${key} = ${formatedUpdate}, `
+            }
+        }
+        formatedUpdates = formatedUpdates.slice( 0, -2 )
+
+        const query   = `UPDATE ${this._tableName} SET ${formatedUpdates}`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _updateMany ( ids, updates, response ) {
+        super._updateMany( ids, updates, response )
+
+        let formatedUpdates = ''
+        let formatedUpdate  = null
+        for ( let key in updates ) {
+            formatedUpdate = updates[ key ]
+            if ( isString( formatedUpdate ) ) {
+                formatedUpdates += `${key} = '${formatedUpdate}', `
+            } else {
+                formatedUpdates += `${key} = ${formatedUpdate}, `
+            }
+        }
+        formatedUpdates = formatedUpdates.slice( 0, -2 )
+
+        const query   = `UPDATE ${this._tableName} SET ${formatedUpdates} WHERE id IN (${ids})`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _updateOne ( id, update, response ) {
+        super._updateOne( id, update, response )
+
+        let formatedUpdates = ''
+        let formatedUpdate  = null
+        for ( let key in update ) {
+            formatedUpdate = update[ key ]
+            if ( isString( formatedUpdate ) ) {
+                formatedUpdates += `${key} = '${formatedUpdate}', `
+            } else {
+                formatedUpdates += `${key} = ${formatedUpdate}, `
+            }
+        }
+        formatedUpdates = formatedUpdates.slice( 0, -2 )
+
+        const query   = `UPDATE ${this._tableName} SET ${formatedUpdates} WHERE id=${id}`
+        const request = new this._driver.Request( query, this.return( response ) )
+
+        this._driver.Connection.execSql( request )
+
+    }
+
+    _updateWhere ( query, update, response ) {
+        super._updateWhere( query, update, response )
+
+        TAbstractDataController.returnError( 'Unimplemented methods (UPDATE WHERE)', response )
+
+    }
+
+}
+
+export { TSQLServerController }
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Copyright 2015-Present <a href="https://github.com/Itee">Itee</a> (Tristan Valcke)
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a>
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
